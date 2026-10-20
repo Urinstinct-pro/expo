@@ -1,5 +1,16 @@
 # Changelog
 
+## 58.0.24
+
+### Patch Changes
+
+- [iOS] Reduce the overhead of creating shared objects in JavaScript and of returning them from native functions. ([#51730](https://github.com/expo/expo/pull/51730) by [@tsapeta](https://github.com/tsapeta))
+- [iOS] Fix shared objects that native code returns to JavaScript again after their earlier JavaScript object was garbage-collected. Their members could throw "Unable to find the native shared object associated with given JavaScript object", or the returned object could belong to another shared object. ([#51854](https://github.com/expo/expo/pull/51854) by [@tsapeta](https://github.com/tsapeta))
+- [iOS] Fix a SwiftUI `Host` that mounts during a repeated modal presentation having no safe area. ([#51923](https://github.com/expo/expo/pull/51923) by [@expo-tuft](https://github.com/apps/expo-tuft))
+- [iOS] Fix hosted React Native content going blank or keeping a stale size after its child view is remounted, for example by a `key` change in an `RNHostView`. ([#51906](https://github.com/expo/expo/pull/51906) by [@expo-tuft](https://github.com/apps/expo-tuft))
+- Updated dependencies. ([#51588](https://github.com/expo/expo/pull/51588), [#51835](https://github.com/expo/expo/pull/51835))
+  - expo-modules-jsi@58.0.17
+
 ## 58.0.23
 
 ### Patch Changes

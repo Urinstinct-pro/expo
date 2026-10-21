@@ -11,10 +11,11 @@ import { ctx } from 'expo-router/_ctx';
 import Head from 'expo-router/head';
 import {
   getRouteInfoForLocation,
+  getRouteInfoForMatchedRoute,
   InnerRoot,
   registerStaticRootComponent,
 } from 'expo-router/internal/static';
-import type { AssetInfo } from 'expo-server/private';
+import type { AssetInfo, MatchedRoute } from 'expo-server/private';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
@@ -45,6 +46,10 @@ export type GetStaticContentOptions = {
     key: string;
   };
   request?: Request;
+  /** The route the server matched for `location`. When set, the renderer does not match again. */
+  route?: MatchedRoute;
+  /** The params the server captured for `route`. */
+  params?: Record<string, string | string[]>;
   hydrate?: boolean;
   assets?: AssetInfo;
 };
@@ -56,7 +61,9 @@ export type GetStaticContentOptions = {
 function prepareRenderContext(location: URL, options?: GetStaticContentOptions) {
   const headContext: { helmet?: any } = {};
   const Root = getRootComponent();
-  const { pathname, params } = getRouteInfoForLocation(ctx, location);
+  const { pathname, params } = options?.route
+    ? getRouteInfoForMatchedRoute(options.route, options.params ?? {}, location)
+    : getRouteInfoForLocation(ctx, location);
 
   const {
     // NOTE: The `element` that's returned adds two extra Views and

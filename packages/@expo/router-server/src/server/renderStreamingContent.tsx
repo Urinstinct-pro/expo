@@ -14,10 +14,11 @@ import Head from 'expo-router/head';
 import { ServerDocument } from 'expo-router/internal/server';
 import {
   getRouteInfoForLocation,
+  getRouteInfoForMatchedRoute,
   InnerRoot,
   registerStaticRootComponent,
 } from 'expo-router/internal/static';
-import { normalizeCssAssets, type AssetInfo } from 'expo-server/private';
+import { normalizeCssAssets, type AssetInfo, type MatchedRoute } from 'expo-server/private';
 import React, { type ReactNode } from 'react';
 import ReactDOMServer from 'react-dom/server';
 
@@ -54,6 +55,10 @@ export type GetStreamingContentOptions = {
     headNodes: ReactNode[];
   } | null;
   request?: Request;
+  /** The route the server matched for `location`. When set, the renderer does not match again. */
+  route?: MatchedRoute;
+  /** The params the server captured for `route`. */
+  params?: Record<string, string | string[]>;
   /** Assets for hydration bundles and development-only inline CSS. */
   assets?: AssetInfo;
   /** Sets the output mode when exporting. */
@@ -64,7 +69,9 @@ export type GetStreamingContentOptions = {
 function prepareRenderContext(location: URL, options?: GetStreamingContentOptions) {
   const headContext: { helmet?: any } = {};
   const Root = getRootComponent();
-  const { pathname, params } = getRouteInfoForLocation(ctx, location);
+  const { pathname, params } = options?.route
+    ? getRouteInfoForMatchedRoute(options.route, options.params ?? {}, location)
+    : getRouteInfoForLocation(ctx, location);
 
   const {
     // NOTE: The `element` that's returned adds two extra Views and

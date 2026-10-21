@@ -57,3 +57,25 @@ it('passes the pathname and params to +html during server rendering', async () =
     draft: 'true',
   });
 });
+
+it.each(['static', 'server'] as const)(
+  '%s rendering resolves +html props from the matched route instead of matching again',
+  async (output) => {
+    const location = new URL('http://localhost/posts/123?draft=true');
+    const options = {
+      route: { file: './posts/[id].tsx', page: '/posts/[id]' },
+      params: { id: '999' },
+    };
+    const content =
+      output === 'static'
+        ? await getStaticContent(location, options)
+        : await new Response(await getStreamingContent(location, options)).text();
+
+    const root = parse(content).querySelector('html');
+    expect(root?.getAttribute('data-pathname')).toBe('/posts/999');
+    expect(JSON.parse(root?.getAttribute('data-params') ?? '')).toEqual({
+      id: '999',
+      draft: 'true',
+    });
+  }
+);

@@ -174,12 +174,22 @@ export type RawManifest = RoutesManifest<string>;
 export type Manifest = RoutesManifest<RegExp>;
 export type Route = RouteInfo<RegExp>;
 
+/** The route the server matched for a request. */
+export interface MatchedRoute {
+  file: string;
+  page: string;
+}
+
 /**
  * @type {import('@expo/router-server/src/static/renderStaticContent').GetStaticContentOptions}
  */
 export interface GetStaticContentOptions {
   loader?: { data?: unknown; key: string };
   request?: Request;
+  /** The route the server matched for the location. When set, the renderer does not match again. */
+  route?: MatchedRoute;
+  /** The params the server captured for `route`. */
+  params?: Record<string, string | string[]>;
   assets?: AssetInfo;
 }
 
@@ -192,6 +202,10 @@ export interface GetStreamingContentOptions {
     headNodes: ReactNode[];
   } | null;
   request?: Request;
+  /** The route the server matched for the location. When set, the renderer does not match again. */
+  route?: MatchedRoute;
+  /** The params the server captured for `route`. */
+  params?: Record<string, string | string[]>;
   assets?: AssetInfo;
   output?: 'static' | 'server';
   hydrate?: boolean;

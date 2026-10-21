@@ -122,6 +122,8 @@ export function createEnvironment(input: EnvironmentInput): CommonEnvironment {
         return ssrModule.getStaticContent(location, {
           loader: options?.loader,
           request,
+          route: options?.route,
+          params: options?.params,
           assets,
         });
       }
@@ -130,6 +132,8 @@ export function createEnvironment(input: EnvironmentInput): CommonEnvironment {
         loader: options?.loader,
         metadata: options?.metadata,
         request,
+        route: options?.route,
+        params: options?.params,
         assets,
       });
     };
@@ -163,8 +167,13 @@ export function createEnvironment(input: EnvironmentInput): CommonEnvironment {
       // SSR path: Render at runtime if SSR module is available
       const { renderer, module: ssrModule } = await getServerRenderer();
       if (renderer) {
-        let renderOptions: RenderOptions = { assets: route.assets };
         const params = parseParams(request, route);
+        let renderOptions: RenderOptions = {
+          assets: route.assets,
+          // A generated route has no file to match, so the renderer resolves it itself.
+          route: route.generated ? undefined : { file: route.file, page: route.page },
+          params,
+        };
 
         try {
           if (ssrModule && isStreamingRenderer(ssrModule) && ssrModule.resolveMetadata) {

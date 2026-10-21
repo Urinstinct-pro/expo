@@ -940,6 +940,52 @@ function createMockManifest({
   };
 }
 
+it('passes the matched route to the SSR renderer, except for generated routes', async () => {
+  const mockSSRModule = createMockSSRModule();
+  const input = createMockInput({
+    manifest: {
+      rendering: { mode: 'ssr', file: '_expo/server/render.js' },
+      assets: { css: [], js: [] },
+    },
+    modules: { '_expo/server/render.js': mockSSRModule },
+  });
+  const env = createEnvironment(input);
+
+  await env.getHtml(
+    new Request('http://localhost/posts/123?draft=true'),
+    createMockRoute({
+      file: './posts/[id].tsx',
+      page: '/posts/[id]',
+      namedRegex: new RegExp('^/posts/(?<id>[^/]+?)(?:/)?$'),
+      routeKeys: { id: 'id' },
+    })
+  );
+  await env.getHtml(
+    new Request('http://localhost/missing'),
+    createMockRoute({
+      file: './+not-found.tsx',
+      page: '/+not-found',
+      namedRegex: new RegExp('^(?:/(?<notfound>.+?))?(?:/)?$'),
+      routeKeys: { notfound: 'not-found' },
+      generated: true,
+    })
+  );
+
+  expect(mockSSRModule.getStreamingContent).toHaveBeenNthCalledWith(
+    1,
+    expect.any(URL),
+    expect.objectContaining({
+      route: { file: './posts/[id].tsx', page: '/posts/[id]' },
+      params: { id: '123' },
+    })
+  );
+  expect(mockSSRModule.getStreamingContent).toHaveBeenNthCalledWith(
+    2,
+    expect.any(URL),
+    expect.objectContaining({ route: undefined, params: { 'not-found': 'missing' } })
+  );
+});
+
 function createMockInput({
   files = {},
   modules = {},

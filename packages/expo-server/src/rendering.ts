@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
 import { type ImmutableRequest } from './ImmutableRequest';
-import type { AssetInfo, GetStaticContentOptions, GetStreamingContentOptions } from './manifest';
+import type {
+  AssetInfo,
+  GetStaticContentOptions,
+  GetStreamingContentOptions,
+  MatchedRoute,
+} from './manifest';
 import type { Metadata } from './metadata';
-
-export interface MatchedRouteMetadata {
-  file: string;
-  page: string;
-}
 
 export interface ResolvedMetadata {
   metadata: Metadata;
@@ -15,7 +15,7 @@ export interface ResolvedMetadata {
 }
 
 export interface ResolveMetadataOptions {
-  route: MatchedRouteMetadata;
+  route: MatchedRoute;
   request: ImmutableRequest | undefined;
   params: Record<string, string | string[]>;
 }
@@ -53,6 +53,8 @@ export type MaybeLegacyServerRenderModule = LegacyServerRenderModule | ServerRen
 export interface RenderOptions {
   loader?: { data: unknown; key: string };
   metadata?: ResolvedMetadata | null;
+  route?: MatchedRoute;
+  params?: Record<string, string | string[]>;
   assets?: AssetInfo;
 }
 

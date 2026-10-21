@@ -126,6 +126,7 @@ type ResolveMetadataFunction =
 type DevServerRenderOptions = {
   loader?: GetStreamingContentOptions['loader'];
   metadata?: Awaited<ReturnType<ResolveMetadataFunction>>;
+  route?: GetStreamingContentOptions['route'];
   params: Record<string, string | string[]>;
 };
 
@@ -549,6 +550,12 @@ export class MetroBundlerDevServer extends BundlerDevServer {
         return await getStreamingContent(location, {
           ...opts,
           ...(metadata !== undefined ? { metadata } : {}),
+          ...(resolvedRoute
+            ? {
+                route: { file: resolvedRoute.file, page: resolvedRoute.contextKey },
+                params: resolvedRoute.params,
+              }
+            : {}),
           output: 'static',
         });
       },
@@ -630,7 +637,10 @@ export class MetroBundlerDevServer extends BundlerDevServer {
 
     const resolvedLoaderRoute = fromServerManifestRoute(location.pathname, route);
     const params = resolvedLoaderRoute?.params ?? {};
-    const renderOptions: DevServerRenderOptions = { params };
+    const renderOptions: DevServerRenderOptions = {
+      params,
+      route: { file: route.file, page: route.page },
+    };
     const { exp } = getConfig(this.projectRoot);
     const isRuntimeSsr = exp.web?.output === 'server';
 
@@ -743,7 +753,12 @@ export class MetroBundlerDevServer extends BundlerDevServer {
         clientBoundaries: [],
       });
       const css = getStreamingCssAssetsFromSerialAssets(resources);
-      const { loader, metadata } = await this.getDevServerRenderOptionsAsync({
+      const {
+        loader,
+        metadata,
+        route: matchedRoute,
+        params,
+      } = await this.getDevServerRenderOptionsAsync({
         location,
         route,
         request,
@@ -754,6 +769,8 @@ export class MetroBundlerDevServer extends BundlerDevServer {
         loader,
         metadata,
         request: request as unknown as Request,
+        route: matchedRoute,
+        params,
         assets: {
           css,
           js: [devBundleUrlPathname],
@@ -776,7 +793,12 @@ export class MetroBundlerDevServer extends BundlerDevServer {
       ),
     ]);
 
-    const { loader, metadata } = await this.getDevServerRenderOptionsAsync({
+    const {
+      loader,
+      metadata,
+      route: matchedRoute,
+      params,
+    } = await this.getDevServerRenderOptionsAsync({
       location,
       route,
       request,
@@ -792,6 +814,7 @@ export class MetroBundlerDevServer extends BundlerDevServer {
     const content = await getStreamingContent(location, {
       ...(loader ? { loader } : {}),
       ...(metadata !== undefined ? { metadata } : {}),
+      ...(matchedRoute ? { route: matchedRoute, params } : {}),
       output: 'static',
       hydrate: env.EXPO_WEB_DEV_HYDRATE,
       assets,

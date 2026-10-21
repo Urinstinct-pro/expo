@@ -271,6 +271,8 @@ describe('getStaticRenderFunctionAsync', () => {
     expect(getStreamingContent).toHaveBeenCalledWith(new URL('http://localhost:8081/posts/123'), {
       ...options,
       metadata: resolvedMetadata,
+      route: { file: './posts/[postId].tsx', page: '/posts/[postId]' },
+      params: { postId: '123' },
       output: 'static',
     });
 
@@ -640,6 +642,8 @@ describe('getStaticPageAsync', () => {
       loader: undefined,
       metadata: null,
       request,
+      route: { file: 'posts/[postId].tsx', page: '/posts/[postId]' },
+      params: { postId: '123' },
       assets: {
         css: [
           { type: 'external', href: 'https://example.com/font.css', media: undefined },
@@ -696,6 +700,8 @@ describe('getStaticPageAsync', () => {
       expect(getStreamingContent).toHaveBeenCalledWith(new URL('http://localhost:8081/posts/123'), {
         loader: { data: { postId: '123' }, key: '/posts/123' },
         metadata: resolvedMetadata,
+        route: { file: 'posts/[postId].tsx', page: '/posts/[postId]' },
+        params: { postId: '123' },
         output: 'static',
         hydrate: false,
         assets: {
@@ -767,6 +773,7 @@ describe('getStaticPageAsync', () => {
 
     expect(result).toEqual({
       params: { postId: '123' },
+      route: { file: 'posts/[postId].tsx', page: '/posts/[postId]' },
       metadata: { headNodes: [] },
       loader: {
         data: { postId: '123' },

@@ -27,7 +27,7 @@ export interface ResolveMetadataOptions {
  */
 export interface LegacyServerRenderModule {
   /** {@type import('@expo/router-server/src/static/renderStaticContent').getStaticContent} */
-  getStaticContent(location: URL, options?: GetStaticContentOptions): Promise<string>;
+  getStaticContent(location: URL, options: GetStaticContentOptions): Promise<string>;
 }
 
 /**
@@ -44,7 +44,7 @@ export interface ServerRenderModule {
   ): Promise<string>;
   getStreamingContent(
     location: URL,
-    options?: GetStreamingContentOptions & { output?: 'server' }
+    options: GetStreamingContentOptions & { output?: 'server' }
   ): Promise<ReadableStream<Uint8Array>>;
 }
 
@@ -53,14 +53,14 @@ export type MaybeLegacyServerRenderModule = LegacyServerRenderModule | ServerRen
 export interface RenderOptions {
   loader?: { data: unknown; key: string };
   metadata?: ResolvedMetadata | null;
-  route?: MatchedRoute;
+  route: MatchedRoute;
   params?: Record<string, string | string[]>;
   assets?: AssetInfo;
 }
 
 export type SsrRenderFn = (
   request: Request,
-  options?: RenderOptions
+  options: RenderOptions
 ) => Promise<string | ReadableStream<Uint8Array>>;
 
 /** Module exported from loader bundle, typically `_expo/loaders/[ROUTE].js` */

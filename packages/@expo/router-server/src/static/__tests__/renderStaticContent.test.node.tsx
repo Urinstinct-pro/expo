@@ -38,8 +38,13 @@ jest.mock('expo-router/_ctx-html', () => {
   };
 });
 
+const postRoute = {
+  route: { file: './posts/[id].tsx', page: '/posts/[id]' },
+  params: { id: '123' },
+};
+
 it('passes the pathname and params to +html during static rendering', async () => {
-  const html = parse(await getStaticContent(new URL('http://localhost/posts/123')));
+  const html = parse(await getStaticContent(new URL('http://localhost/posts/123'), postRoute));
 
   const root = html.querySelector('html');
   expect(root?.getAttribute('data-pathname')).toBe('/posts/123');
@@ -47,7 +52,10 @@ it('passes the pathname and params to +html during static rendering', async () =
 });
 
 it('passes the pathname and params to +html during server rendering', async () => {
-  const stream = await getStreamingContent(new URL('http://localhost/posts/123?draft=true'));
+  const stream = await getStreamingContent(
+    new URL('http://localhost/posts/123?draft=true'),
+    postRoute
+  );
   const html = parse(await new Response(stream).text());
 
   const root = html.querySelector('html');
@@ -59,13 +67,10 @@ it('passes the pathname and params to +html during server rendering', async () =
 });
 
 it.each(['static', 'server'] as const)(
-  '%s rendering resolves +html props from the matched route instead of matching again',
+  '%s rendering resolves +html props from the matched route and params',
   async (output) => {
     const location = new URL('http://localhost/posts/123?draft=true');
-    const options = {
-      route: { file: './posts/[id].tsx', page: '/posts/[id]' },
-      params: { id: '999' },
-    };
+    const options = { ...postRoute, params: { id: '999' } };
     const content =
       output === 'static'
         ? await getStaticContent(location, options)

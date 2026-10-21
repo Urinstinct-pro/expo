@@ -178,6 +178,8 @@ export type Route = RouteInfo<RegExp>;
 export interface MatchedRoute {
   file: string;
   page: string;
+  /** The route was generated, such as the sitemap or the not-found route when the app has no file for it. */
+  generated?: boolean;
 }
 
 /**
@@ -186,8 +188,8 @@ export interface MatchedRoute {
 export interface GetStaticContentOptions {
   loader?: { data?: unknown; key: string };
   request?: Request;
-  /** The route the server matched for the location. When set, the renderer does not match again. */
-  route?: MatchedRoute;
+  /** The route the server matched for the location. */
+  route: MatchedRoute;
   /** The params the server captured for `route`. */
   params?: Record<string, string | string[]>;
   assets?: AssetInfo;
@@ -202,8 +204,8 @@ export interface GetStreamingContentOptions {
     headNodes: ReactNode[];
   } | null;
   request?: Request;
-  /** The route the server matched for the location. When set, the renderer does not match again. */
-  route?: MatchedRoute;
+  /** The route the server matched for the location. */
+  route: MatchedRoute;
   /** The params the server captured for `route`. */
   params?: Record<string, string | string[]>;
   assets?: AssetInfo;

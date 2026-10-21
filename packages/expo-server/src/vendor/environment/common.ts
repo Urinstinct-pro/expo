@@ -114,26 +114,26 @@ export function createEnvironment(input: EnvironmentInput): CommonEnvironment {
     ssrRenderer = async (request, options) => {
       const url = new URL(request.url);
       const location = new URL(url.pathname + url.search, url.origin);
-      const assets = mergeAssets(topLevelAssets, options?.assets);
+      const assets = mergeAssets(topLevelAssets, options.assets);
 
       // NOTE(@hassankhan): We still need to support SDK 55 deployments which
       // use the "legacy" server export
       if (!isStreamingRenderer(ssrModule)) {
         return ssrModule.getStaticContent(location, {
-          loader: options?.loader,
+          loader: options.loader,
           request,
-          route: options?.route,
-          params: options?.params,
+          route: options.route,
+          params: options.params,
           assets,
         });
       }
 
       return ssrModule.getStreamingContent(location, {
-        loader: options?.loader,
-        metadata: options?.metadata,
+        loader: options.loader,
+        metadata: options.metadata,
         request,
-        route: options?.route,
-        params: options?.params,
+        route: options.route,
+        params: options.params,
         assets,
       });
     };
@@ -170,8 +170,11 @@ export function createEnvironment(input: EnvironmentInput): CommonEnvironment {
         const params = parseParams(request, route);
         let renderOptions: RenderOptions = {
           assets: route.assets,
-          // A generated route has no file to match, so the renderer resolves it itself.
-          route: route.generated ? undefined : { file: route.file, page: route.page },
+          route: {
+            file: route.file,
+            page: route.page,
+            ...(route.generated ? { generated: true } : {}),
+          },
           params,
         };
 

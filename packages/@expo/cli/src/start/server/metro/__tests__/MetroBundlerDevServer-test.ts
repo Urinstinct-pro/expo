@@ -286,7 +286,12 @@ describe('getStaticRenderFunctionAsync', () => {
     expect(resolveMetadata).not.toHaveBeenCalled();
     expect(getStreamingContent).toHaveBeenLastCalledWith(
       new URL('http://localhost:8081/+not-found'),
-      { ...options, output: 'static' }
+      {
+        ...options,
+        route: { file: undefined, page: '/+not-found', generated: true },
+        params: {},
+        output: 'static',
+      }
     );
   });
 });

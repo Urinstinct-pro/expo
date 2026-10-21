@@ -123,10 +123,13 @@ type SSRLoadModuleFunc = <T extends Record<string, any>>(
 type ResolveMetadataFunction =
   typeof import('@expo/router-server/build/static/renderStaticContent').resolveMetadata;
 
+/** Render options the export supplies. The matched route and params are resolved here. */
+type StaticRenderOptions = Omit<GetStaticContentOptions, 'route' | 'params'>;
+
 type DevServerRenderOptions = {
   loader?: GetStreamingContentOptions['loader'];
   metadata?: Awaited<ReturnType<ResolveMetadataFunction>>;
-  route?: GetStreamingContentOptions['route'];
+  route: GetStreamingContentOptions['route'];
   params: Record<string, string | string[]>;
 };
 
@@ -498,11 +501,7 @@ export class MetroBundlerDevServer extends BundlerDevServer {
   async getStaticRenderFunctionAsync(): Promise<{
     serverManifest: RoutesManifest<string>;
     manifest: ExpoRouterRuntimeManifest;
-    renderAsync: (
-      path: string,
-      route: RouteNode,
-      opts?: GetStaticContentOptions
-    ) => Promise<string>;
+    renderAsync: (path: string, route: RouteNode, opts?: StaticRenderOptions) => Promise<string>;
     executeLoaderAsync: (path: string, route: RouteNode) => Promise<Response | undefined>;
   }> {
     const { routerRoot } = this.instanceMetroOptions;
@@ -555,7 +554,11 @@ export class MetroBundlerDevServer extends BundlerDevServer {
                 route: { file: resolvedRoute.file, page: resolvedRoute.contextKey },
                 params: resolvedRoute.params,
               }
-            : {}),
+            : {
+                // Internal routes such as the sitemap and the generated not-found page.
+                route: { file: route.contextKey, page: location.pathname, generated: true },
+                params: {},
+              }),
           output: 'static',
         });
       },
@@ -632,7 +635,7 @@ export class MetroBundlerDevServer extends BundlerDevServer {
     resolveMetadata?: ResolveMetadataFunction;
   }): Promise<DevServerRenderOptions> {
     if (route.generated) {
-      return { params: {} };
+      return { params: {}, route: { file: route.file, page: route.page, generated: true } };
     }
 
     const resolvedLoaderRoute = fromServerManifestRoute(location.pathname, route);
@@ -814,7 +817,8 @@ export class MetroBundlerDevServer extends BundlerDevServer {
     const content = await getStreamingContent(location, {
       ...(loader ? { loader } : {}),
       ...(metadata !== undefined ? { metadata } : {}),
-      ...(matchedRoute ? { route: matchedRoute, params } : {}),
+      route: matchedRoute,
+      params,
       output: 'static',
       hydrate: env.EXPO_WEB_DEV_HYDRATE,
       assets,

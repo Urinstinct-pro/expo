@@ -940,7 +940,7 @@ function createMockManifest({
   };
 }
 
-it('passes the matched route to the SSR renderer, except for generated routes', async () => {
+it('passes the matched route and params to the SSR renderer', async () => {
   const mockSSRModule = createMockSSRModule();
   const input = createMockInput({
     manifest: {
@@ -982,7 +982,10 @@ it('passes the matched route to the SSR renderer, except for generated routes', 
   expect(mockSSRModule.getStreamingContent).toHaveBeenNthCalledWith(
     2,
     expect.any(URL),
-    expect.objectContaining({ route: undefined, params: { 'not-found': 'missing' } })
+    expect.objectContaining({
+      route: { file: './+not-found.tsx', page: '/+not-found', generated: true },
+      params: { 'not-found': 'missing' },
+    })
   );
 });
 

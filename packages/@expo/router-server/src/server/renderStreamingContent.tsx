@@ -13,7 +13,6 @@ import { ctx } from 'expo-router/_ctx';
 import Head from 'expo-router/head';
 import { ServerDocument } from 'expo-router/internal/server';
 import {
-  getRouteInfoForLocation,
   getRouteInfoForMatchedRoute,
   InnerRoot,
   registerStaticRootComponent,
@@ -55,8 +54,8 @@ export type GetStreamingContentOptions = {
     headNodes: ReactNode[];
   } | null;
   request?: Request;
-  /** The route the server matched for `location`. When set, the renderer does not match again. */
-  route?: MatchedRoute;
+  /** The route the server matched for `location`. */
+  route: MatchedRoute;
   /** The params the server captured for `route`. */
   params?: Record<string, string | string[]>;
   /** Assets for hydration bundles and development-only inline CSS. */
@@ -66,12 +65,14 @@ export type GetStreamingContentOptions = {
   hydrate?: boolean;
 };
 
-function prepareRenderContext(location: URL, options?: GetStreamingContentOptions) {
+function prepareRenderContext(location: URL, options: GetStreamingContentOptions) {
   const headContext: { helmet?: any } = {};
   const Root = getRootComponent();
-  const { pathname, params } = options?.route
-    ? getRouteInfoForMatchedRoute(options.route, options.params ?? {}, location)
-    : getRouteInfoForLocation(ctx, location);
+  const { pathname, params } = getRouteInfoForMatchedRoute(
+    options.route,
+    options.params ?? {},
+    location
+  );
 
   const {
     // NOTE: The `element` that's returned adds two extra Views and
@@ -90,11 +91,11 @@ function prepareRenderContext(location: URL, options?: GetStreamingContentOption
 
   resetReactNavigationContexts();
 
-  const loaderKey = options?.loader ? options.loader.key + location.search : null;
+  const loaderKey = options.loader ? options.loader.key + location.search : null;
 
   const loadedData = loaderKey
     ? {
-        [loaderKey]: options?.loader?.data ?? null,
+        [loaderKey]: options.loader?.data ?? null,
       }
     : null;
 
@@ -119,11 +120,11 @@ export function getStreamingContent(
 ): Promise<string>;
 export function getStreamingContent(
   location: URL,
-  options?: GetStreamingContentOptions & { output?: 'server' }
+  options: GetStreamingContentOptions & { output?: 'server' }
 ): Promise<ReadableStream<Uint8Array>>;
 export async function getStreamingContent(
   location: URL,
-  options?: GetStreamingContentOptions
+  options: GetStreamingContentOptions
 ): Promise<string | ReadableStream<Uint8Array>> {
   return Font.withServerContext(async () => {
     const { headContext, element, getStyleElement, loadedData } = prepareRenderContext(
@@ -131,18 +132,18 @@ export async function getStreamingContent(
       options
     );
 
-    const { headNodes: cssNodes } = createInjectedCssAsNodes(normalizeCssAssets(options?.assets));
-    const faviconNode = options?.assets?.favicon
-      ? createFaviconAsNode(options?.assets?.favicon)
+    const { headNodes: cssNodes } = createInjectedCssAsNodes(normalizeCssAssets(options.assets));
+    const faviconNode = options.assets?.favicon
+      ? createFaviconAsNode(options.assets?.favicon)
       : undefined;
 
     const { headNodes: headJsNodes, bodyNodes: bodyJsNodes } = createInjectedScriptAsNodes(
-      options?.assets?.js ?? []
+      options.assets?.js ?? []
     );
 
     const serverDocumentData = {
       headNodes: [
-        ...(options?.metadata?.headNodes ?? []),
+        ...(options.metadata?.headNodes ?? []),
         faviconNode,
         getStyleElement({ key: 'rnw-style-element' }),
         ...(cssNodes ?? []),
@@ -153,7 +154,7 @@ export async function getStreamingContent(
       bodyNodes: [<FontResources key="font-resources" />, ...(bodyJsNodes ?? [])],
     };
 
-    const isStatic = options?.output === 'static';
+    const isStatic = options.output === 'static';
     const renderErrors: unknown[] = [];
     const stream = await ReactDOMServer.renderToReadableStream(
       <ServerDocument data={serverDocumentData}>
@@ -165,12 +166,12 @@ export async function getStreamingContent(
         progressiveChunkSize: Number.MAX_SAFE_INTEGER,
         bootstrapScriptContent:
           getBootstrapContents({
-            hydrate: options?.hydrate ?? true,
+            hydrate: options.hydrate ?? true,
             loadedData,
           }) || undefined,
-        signal: options?.request?.signal,
+        signal: options.request?.signal,
         onError(error) {
-          if (options?.request?.signal.aborted) {
+          if (options.request?.signal.aborted) {
             return;
           }
 

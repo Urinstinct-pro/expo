@@ -5,6 +5,9 @@ import { Suspense, use, type ReactNode } from 'react';
 import { getStreamingContent } from '../renderStreamingContent';
 
 const mockRenderContent = jest.fn<ReactNode, []>();
+const indexRoute = { route: { file: './index.tsx', page: '/index' } };
+const postRoute = { route: { file: './post.tsx', page: '/post' } };
+const suspenseRoute = { route: { file: './suspense.tsx', page: '/suspense' } };
 
 // Metro provides these require.context modules when bundling an app.
 jest.mock('expo-router/_ctx', () => {
@@ -32,6 +35,7 @@ it.each(['server', 'static'] as const)(
     const loaderData = { title: 'Post </script>' };
     const location = new URL('http://localhost/post?preview=true');
     const options = {
+      ...postRoute,
       assets: { css: [], js: scripts },
       loader: { key: '/post', data: loaderData },
     };
@@ -82,8 +86,8 @@ it.each(['server', 'static'] as const)(
     const location = new URL('http://localhost/suspense');
     const content =
       output === 'static'
-        ? await getStreamingContent(location, { output: 'static' })
-        : await new Response(await getStreamingContent(location)).text();
+        ? await getStreamingContent(location, { ...suspenseRoute, output: 'static' })
+        : await new Response(await getStreamingContent(location, suspenseRoute)).text();
 
     expect(parse(content).querySelector('#root main')?.textContent).toBe(text);
   }
@@ -104,7 +108,10 @@ it('renders large delayed content in its final document position for static outp
       <Content />
     </Suspense>
   );
-  const result = getStreamingContent(new URL('http://localhost/suspense'), { output: 'static' });
+  const result = getStreamingContent(new URL('http://localhost/suspense'), {
+    ...suspenseRoute,
+    output: 'static',
+  });
   await new Promise<void>((resolve) => setImmediate(resolve));
   deferred.resolve('x'.repeat(30_000));
   const html = parse(await result);
@@ -122,7 +129,7 @@ it('returns the live shell while Suspense is still pending', async () => {
       <Content />
     </Suspense>
   );
-  const stream = await getStreamingContent(new URL('http://localhost/suspense'));
+  const stream = await getStreamingContent(new URL('http://localhost/suspense'), suspenseRoute);
   const reader = stream.getReader();
   try {
     const first = await reader.read();
@@ -148,6 +155,7 @@ it('rejects static output when a Suspense boundary fails', async () => {
   try {
     await expect(
       getStreamingContent(new URL('http://localhost/suspense'), {
+        ...suspenseRoute,
         output: 'static',
       })
     ).rejects.toBe(error);
@@ -159,6 +167,7 @@ it('rejects static output when a Suspense boundary fails', async () => {
 it('respects the hydration option for static output', async () => {
   const html = parse(
     await getStreamingContent(new URL('http://localhost/post'), {
+      ...postRoute,
       output: 'static',
       hydrate: false,
     })
@@ -172,7 +181,7 @@ it('respects the hydration option for static output', async () => {
 });
 
 it('streams the hydration bootstrap when no assets are supplied', async () => {
-  const stream = await getStreamingContent(new URL('http://localhost/'));
+  const stream = await getStreamingContent(new URL('http://localhost/'), indexRoute);
   const html = parse(await new Response(stream).text());
 
   expect(html.querySelector('div#root')?.textContent).toContain('Index route');

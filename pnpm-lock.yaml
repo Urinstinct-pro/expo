@@ -2455,8 +2455,8 @@ importers:
         specifier: ^1.6.6
         version: 1.6.8
       xcode:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^4.0.0
+        version: 4.0.0
       xml2js:
         specifier: 0.6.0
         version: 0.6.0
@@ -2949,8 +2949,8 @@ importers:
         specifier: ^1.30.1
         version: 1.32.0
       noxcturnal:
-        specifier: ^0.1.7
-        version: 0.1.7
+        specifier: ^0.1.11
+        version: 0.1.11
       picomatch:
         specifier: ^4.0.4
         version: 4.0.7
@@ -4005,7 +4005,7 @@ importers:
   packages/expo-app-intents:
     dependencies:
       '@expo/ui':
-        specifier: workspace:^58.0.21
+        specifier: workspace:^58.0.23
         version: link:../expo-ui
       commander:
         specifier: ^12.1.0
@@ -5009,6 +5009,12 @@ importers:
       expo:
         specifier: workspace:*
         version: link:../expo
+      react-native-reanimated:
+        specifier: 4.7.1
+        version: 4.7.1(patch_hash=0f735c4b33f9af576a7af1a9cffcea5220cbbc671ec2f158848cdd086d73d5e4)(react-native-worklets@0.13.0(patch_hash=0e7ca08ddb565252ea4479e4bb493c5c09756297ba0ec8845126edcfcc981b28)(@babel/core@7.29.7)(react-native@0.88.0(@babel/core@7.29.7)(@types/react@19.3.0)(react@19.3.0))(react@19.3.0))(react-native@0.88.0(@babel/core@7.29.7)(@types/react@19.3.0)(react@19.3.0))(react@19.3.0)
+      react-native-worklets:
+        specifier: 0.13.0
+        version: 0.13.0(patch_hash=0e7ca08ddb565252ea4479e4bb493c5c09756297ba0ec8845126edcfcc981b28)(@babel/core@7.29.7)(react-native@0.88.0(@babel/core@7.29.7)(@types/react@19.3.0)(react@19.3.0))(react@19.3.0)
 
   packages/expo-image:
     dependencies:
@@ -5435,10 +5441,16 @@ importers:
 
   packages/expo-modules-cli:
     dependencies:
+      '@babel/parser':
+        specifier: ^7.20.0
+        version: 7.29.7
       arg:
         specifier: ^5.0.2
         version: 5.0.2
     devDependencies:
+      '@babel/types':
+        specifier: ^7.20.0
+        version: 7.29.7
       '@expo/internal-scripts':
         specifier: workspace:*
         version: link:../@expo/internal-scripts
@@ -5448,9 +5460,6 @@ importers:
       '@types/node':
         specifier: ^22.14.0
         version: 22.20.1
-      expo-modules-macros:
-        specifier: 0.21.0
-        version: 0.21.0
 
   packages/expo-modules-core:
     dependencies:
@@ -5458,8 +5467,8 @@ importers:
         specifier: workspace:~
         version: link:../expo-modules-jsi
       expo-modules-macros:
-        specifier: 0.21.0
-        version: 0.21.0
+        specifier: 0.27.0
+        version: 0.27.0
       invariant:
         specifier: ^2.2.4
         version: 2.2.4
@@ -5726,6 +5735,9 @@ importers:
       expo-server:
         specifier: workspace:^
         version: link:../expo-server
+      expo-status-bar:
+        specifier: workspace:^
+        version: link:../expo-status-bar
       nanoid:
         specifier: ^3.3.18
         version: 3.3.18
@@ -5796,6 +5808,9 @@ importers:
       '@types/react-is':
         specifier: ^19.0.0
         version: 19.2.0
+      expect:
+        specifier: ^30.0.0
+        version: 30.5.2
       expect-type:
         specifier: ^1.3.0
         version: 1.3.0
@@ -6160,6 +6175,9 @@ importers:
 
   packages/expo-status-bar:
     dependencies:
+      expo:
+        specifier: '*'
+        version: link:../expo
       react:
         specifier: '*'
         version: 19.3.0
@@ -6191,9 +6209,6 @@ importers:
       '@types/react':
         specifier: ~19.3.0
         version: 19.3.0
-      expo:
-        specifier: workspace:*
-        version: link:../expo
 
   packages/expo-store-review:
     dependencies:
@@ -7201,6 +7216,9 @@ importers:
       diff:
         specifier: ^8.0.3
         version: 8.0.3
+      expo-modules-autolinking:
+        specifier: workspace:*
+        version: link:../packages/expo-modules-autolinking
       folder-hash:
         specifier: ^4.0.4
         version: 4.1.2
@@ -7298,18 +7316,6 @@ importers:
       '@types/semver':
         specifier: ^7.7.1
         version: 7.7.1
-      eslint:
-        specifier: ^9.39.4
-        version: 9.39.4(jiti@2.7.0)
-      eslint-config-universe:
-        specifier: workspace:^
-        version: link:../packages/eslint-config-universe
-      eslint-plugin-lodash:
-        specifier: ^7.4.0
-        version: 7.4.0(eslint@9.39.4(jiti@2.7.0))
-      prettier:
-        specifier: ^3.8.3
-        version: 3.8.3
       taskr:
         specifier: 1.1.0
         version: 1.1.0
@@ -8430,25 +8436,25 @@ packages:
   '@expo/metro@58.0.0':
     resolution: {integrity: sha512-PMD640ihB0C3Oqm0AnDVJ/8qF2cKbRUEqGuSOr4tM/OTb9ktxsQqsiSSSeaOEgdCZBq20AxRS0d6WHNhhH2P+g==}
 
-  '@expo/modules-macros-linux-arm64@0.21.0':
-    resolution: {integrity: sha512-et6K38xG21MBiYGrSfLlh3pD8ZuWkUrg7O1fdQxuLUvmFggb/C1ddo29SHLguJ+5Hjl+6J+ncEgpIWt6pQZjIw==}
+  '@expo/modules-macros-linux-arm64@0.27.0':
+    resolution: {integrity: sha512-O93KfvqYI1rPs+olpelwvDmbL0ijZDtTIb9aw8bnovM5Clz+Feu8X5IFb/Gxoo5hy7OWTU/MPUk/k/tRbnvvrQ==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@expo/modules-macros-linux-x64@0.21.0':
-    resolution: {integrity: sha512-p/vMS+FrWTvk+um3+8fd7/3VBJQxnPu8SjXGu4zs8lYPWaVOfpyjE80ziDW/KEOUyueT/U9DEzxX8JE/uDDdUg==}
+  '@expo/modules-macros-linux-x64@0.27.0':
+    resolution: {integrity: sha512-7aFpCFVZI7eLYZZxmjkK65fjJ/I7hSTDXiWUtltKLnMHhGmXbseoEJir/pytvVrhLRukDTLI35nkQNsN/kzJ3A==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@expo/modules-macros-win32-arm64@0.21.0':
-    resolution: {integrity: sha512-u2+LDxUKqKvos5dTnZn37Pbp6gMmdGG566dh9fO8gWrS5qcoxBDuNeeB0ZXwrfmhhiL7JtT4AhH5FO7NP8dsfQ==}
+  '@expo/modules-macros-win32-arm64@0.27.0':
+    resolution: {integrity: sha512-Kfd6FE27MqFzRF1qTwsurGTCBKYyN14sLkC9m/o6u5NYMA5knewo403FgRcvD2biD2Vyct68VEWW8I8naURsvg==}
     cpu: [arm64]
     os: [win32]
 
-  '@expo/modules-macros-win32-x64@0.21.0':
-    resolution: {integrity: sha512-MPtZ6mYFJBs7aKfs5PZ9HikyXxn9OnxzObRkCM4vedRLwJ6mEPRaZEzWUyi9MS2SUVU7Lt4oQZPNp+gjTVEZkw==}
+  '@expo/modules-macros-win32-x64@0.27.0':
+    resolution: {integrity: sha512-u40EM9w83B1ej/8t7C1bojV5E6OpQD2WWXeIDdkntvMTaZjNQ6Jpfxsn8kVDqlB22h7TM2luThkuUBl2Z/REsQ==}
     cpu: [x64]
     os: [win32]
 
@@ -8980,54 +8986,54 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@noxcturnal/noxcturnal-darwin-arm64@0.1.7':
-    resolution: {integrity: sha512-GItIncTnb/jh2/2hoK8nk85KJ3IeT8DeFCsihdcpV0W/dxDdCZjQK9Z5ph+v9klly01arfNKjwKFd6OvK9sKmQ==}
+  '@noxcturnal/noxcturnal-darwin-arm64@0.1.11':
+    resolution: {integrity: sha512-tqvZOVmSoiJzm7QjQ+whPxCP45J2C1zCAZnzc1HhwmJrFIWw/qyA8o9Cup0aVqnjNVAN+as9GHX+DbAmkCbGlQ==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [darwin]
 
-  '@noxcturnal/noxcturnal-darwin-x64@0.1.7':
-    resolution: {integrity: sha512-IM2xQUneeV9p7BHOl49aQ315yBui/MlHDvYvweitB7PF6wtFzzw3LA4pL1fUUsO2E304FcEEo3W0Sqpy/qPLNg==}
+  '@noxcturnal/noxcturnal-darwin-x64@0.1.11':
+    resolution: {integrity: sha512-V2HXkK5iKFBSc2GmeZE2I2wGxBc0kMQUHxxIUBSjuO8enKIby6cEQj8WW5EAuIli622Sqw1V7f0IIz8mXB4M9g==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [darwin]
 
-  '@noxcturnal/noxcturnal-linux-arm64-gnu@0.1.7':
-    resolution: {integrity: sha512-t1fyVUo9tgzKbYQE80uUp+RrhooCkyptAm3U31NggQN7EgGQbRWogx5mDwVSG+ju3ZQQ2q9aW0bxp2PK5T6yCg==}
+  '@noxcturnal/noxcturnal-linux-arm64-gnu@0.1.11':
+    resolution: {integrity: sha512-Vf9Qbke9Hq5ToFt88XicQN0FJJuepOnPKspcKDICeYYXS2b5wQnU7uhf33QWzr1KPQhn0L0IWUCwBNhMVn6E6w==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@noxcturnal/noxcturnal-linux-arm64-musl@0.1.7':
-    resolution: {integrity: sha512-fB2pT5qWylqsuertNAEL8zMmJ5i147ueH0n114lvezW0oYQwvznQVBAqatuUgT19JEmOK4widxfrqu/t5Nx9eA==}
+  '@noxcturnal/noxcturnal-linux-arm64-musl@0.1.11':
+    resolution: {integrity: sha512-HlwlrcfBE7JBiwWaq32R8eN4APJHQCDoQlapeK+t0wxY9s9YDMDtAnG+v7RrEz05nu7Aci21x/s8qIAA5jE+NA==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@noxcturnal/noxcturnal-linux-x64-gnu@0.1.7':
-    resolution: {integrity: sha512-zrh+tt1joOXInYjinh4Ff51MJgUZsXi6vJe8Ew+y1pg//YoZbzBgmMz5W8Cf5p8VxcvPCHBbUKqVroA5FftGkg==}
+  '@noxcturnal/noxcturnal-linux-x64-gnu@0.1.11':
+    resolution: {integrity: sha512-kIzTkH4rEIn8vFl42lzfK8qmKaXMwHM7txbI+XkhYKjS+2WV08yslBpwHaPGtGLXPEfx+xUTUgY5K3KVET7HKw==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@noxcturnal/noxcturnal-linux-x64-musl@0.1.7':
-    resolution: {integrity: sha512-qGMlKBm9dG5PcuPqaBkixZkna9+y3A7qV296yYg178OPJWLnRBLksHN67wNzwPlKOtBS5b8nukrgWoJn3RXHzA==}
+  '@noxcturnal/noxcturnal-linux-x64-musl@0.1.11':
+    resolution: {integrity: sha512-KpC0H+v+y/v0j4EmGiopzZ2OKo01JIBrHTjTi+veYAhZbpUfwZfShdTTHEj5OjdQ5VgaJU8yaBXmX48jgAACOg==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@noxcturnal/noxcturnal-win32-arm64-msvc@0.1.7':
-    resolution: {integrity: sha512-R1FxKdMK56mk53mqm7psSk6lWuigQLysaoZopi9CMLwitUn5MIYFuBCjdPG+DjiWNTFbRrB/nrC3eO90ozVqBQ==}
+  '@noxcturnal/noxcturnal-win32-arm64-msvc@0.1.11':
+    resolution: {integrity: sha512-Q0Q0ll/qPzakp/GBmVDB/XthqyCkfM2CE5gZ78t9Ix/bkZDe5O0G7OyNkXRsGu49VcorxoGbBgSyF6CK+OaYlQ==}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [win32]
 
-  '@noxcturnal/noxcturnal-win32-x64-msvc@0.1.7':
-    resolution: {integrity: sha512-g8ChcEDkQgi7pYFRL0IKG+suPVdHxbpz33PAuBJAptVy85nNrjtvfnX7KjH3SLFcr1vdcrm5wFjsUfOogYRkPQ==}
+  '@noxcturnal/noxcturnal-win32-x64-msvc@0.1.11':
+    resolution: {integrity: sha512-as4HUwZkQegCcGoFzaLzlZbBqdx8BGgFhAoQsTsdJCUbNTxVH0f3R/AcRLOUJ6odfko0E2SSuJc70FI0zQ/IDg==}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
@@ -12063,12 +12069,6 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-lodash@7.4.0:
-    resolution: {integrity: sha512-Tl83UwVXqe1OVeBRKUeWcfg6/pCW1GTRObbdnbEJgYwjxp5Q92MEWQaH9+dmzbRt6kvYU1Mp893E79nJiCSM8A==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: '>=2'
-
   eslint-plugin-n@17.24.0:
     resolution: {integrity: sha512-/gC7/KAYmfNnPNOb3eu8vw+TdVnV0zhdQwexsw6FLXbhzroVj20vRn2qL8lDWDGnAQ2J8DhdfvXxX9EoxvERvw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -12259,8 +12259,8 @@ packages:
     peerDependencies:
       expo: '*'
 
-  expo-modules-macros@0.21.0:
-    resolution: {integrity: sha512-dCzN+IH3ss9audf0tvDPgwEuQJZ0WvlC60SfUDFhms8Gal1cXkYpyU7epTH2lj+ipGqghrXXjp+fmyo5wDX+YQ==}
+  expo-modules-macros@0.27.0:
+    resolution: {integrity: sha512-6p15mmFICnGx+O/r9ahUOlP5QaRn5bta43qeCkXklsmq+S5k0yjEhK7ViVDl+AUWX64jl4cbLgBEUisEp3EvTQ==}
 
   expo-server@57.0.3:
     resolution: {integrity: sha512-aK+LdKzauHSGmsOStZtyxdzv0zWssCkxTw3m4QuOhfDSJsZaMRTd9O41d8ixU/QfELTbaJ0oRNcF7JFV/7O9YQ==}
@@ -14001,8 +14001,8 @@ packages:
     resolution: {integrity: sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==}
     engines: {node: '>=10'}
 
-  noxcturnal@0.1.7:
-    resolution: {integrity: sha512-RVIIdLx9Q6EsoHmTeg+n23ZeswbZozH3zNDXA3fw3tCS6i4PDNXhHwcNqzObDaS0Ak5BGZdOk5nb3QPl7H9r2Q==}
+  noxcturnal@0.1.11:
+    resolution: {integrity: sha512-nKgZ4mQpWz5Nry5KRqRcyCv37Uc24VH9UkNsIJJ58sC7ubyXtaiP4zfjOAsGiTVZIJ6rcfkmbYS0P4plVhdHEQ==}
     engines: {node: '>=18'}
 
   npm-bundled@2.0.1:
@@ -15779,11 +15779,6 @@ packages:
     deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
-  uuid@7.0.3:
-    resolution: {integrity: sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-    hasBin: true
-
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
@@ -16144,9 +16139,9 @@ packages:
       utf-8-validate:
         optional: true
 
-  xcode@3.0.1:
-    resolution: {integrity: sha512-kCz5k7J7XbJtjABOvkc5lJmkiDh8VhjVCGNiqdKCscmVpdVUpEAyXv1xmCLkQJ5dsHqx3IPO4XW+NTDhU/fatA==}
-    engines: {node: '>=10.0.0'}
+  xcode@4.0.0:
+    resolution: {integrity: sha512-dDaoWzc9EP2fp9FS9PVZUkyvFxY4y1TOV9pcKaKLk++Ei/qb97XDFEVP7GnW7Osii/TzVABJ0jq2F+9/lq0TVA==}
+    engines: {node: '>=14.17.0'}
 
   xcparse@0.0.3:
     resolution: {integrity: sha512-/HgjZ1o81gudtNHt5a/EGEyMa991WZjZqu8ryPWJ1UtG4NRJyQ2AthR8MaqD6nN7UnCe7IcFShMm5oEA/S9nEQ==}
@@ -17487,16 +17482,16 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@expo/modules-macros-linux-arm64@0.21.0':
+  '@expo/modules-macros-linux-arm64@0.27.0':
     optional: true
 
-  '@expo/modules-macros-linux-x64@0.21.0':
+  '@expo/modules-macros-linux-x64@0.27.0':
     optional: true
 
-  '@expo/modules-macros-win32-arm64@0.21.0':
+  '@expo/modules-macros-win32-arm64@0.27.0':
     optional: true
 
-  '@expo/modules-macros-win32-x64@0.21.0':
+  '@expo/modules-macros-win32-x64@0.27.0':
     optional: true
 
   '@expo/multipart-body-parser@1.1.0':
@@ -18133,28 +18128,28 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@noxcturnal/noxcturnal-darwin-arm64@0.1.7':
+  '@noxcturnal/noxcturnal-darwin-arm64@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-darwin-x64@0.1.7':
+  '@noxcturnal/noxcturnal-darwin-x64@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-linux-arm64-gnu@0.1.7':
+  '@noxcturnal/noxcturnal-linux-arm64-gnu@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-linux-arm64-musl@0.1.7':
+  '@noxcturnal/noxcturnal-linux-arm64-musl@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-linux-x64-gnu@0.1.7':
+  '@noxcturnal/noxcturnal-linux-x64-gnu@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-linux-x64-musl@0.1.7':
+  '@noxcturnal/noxcturnal-linux-x64-musl@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-win32-arm64-msvc@0.1.7':
+  '@noxcturnal/noxcturnal-win32-arm64-msvc@0.1.11':
     optional: true
 
-  '@noxcturnal/noxcturnal-win32-x64-msvc@0.1.7':
+  '@noxcturnal/noxcturnal-win32-x64-msvc@0.1.11':
     optional: true
 
   '@octokit/auth-token@3.0.4': {}
@@ -21230,11 +21225,6 @@ snapshots:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
 
-  eslint-plugin-lodash@7.4.0(eslint@9.39.4(jiti@2.7.0)):
-    dependencies:
-      eslint: 9.39.4(jiti@2.7.0)
-      lodash: 4.18.1
-
   eslint-plugin-n@17.24.0(eslint@9.39.4(jiti@2.7.0))(typescript@6.0.3):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4(jiti@2.7.0))
@@ -21525,12 +21515,12 @@ snapshots:
       serve-static: 2.2.1
       stream-json: 1.9.1
 
-  expo-modules-macros@0.21.0:
+  expo-modules-macros@0.27.0:
     optionalDependencies:
-      '@expo/modules-macros-linux-arm64': 0.21.0
-      '@expo/modules-macros-linux-x64': 0.21.0
-      '@expo/modules-macros-win32-arm64': 0.21.0
-      '@expo/modules-macros-win32-x64': 0.21.0
+      '@expo/modules-macros-linux-arm64': 0.27.0
+      '@expo/modules-macros-linux-x64': 0.27.0
+      '@expo/modules-macros-win32-arm64': 0.27.0
+      '@expo/modules-macros-win32-x64': 0.27.0
 
   expo-server@57.0.3: {}
 
@@ -23564,19 +23554,19 @@ snapshots:
 
   normalize-url@6.1.0: {}
 
-  noxcturnal@0.1.7:
+  noxcturnal@0.1.11:
     dependencies:
       '@babel/code-frame': 7.29.7
       '@oxc-project/types': 0.154.0
     optionalDependencies:
-      '@noxcturnal/noxcturnal-darwin-arm64': 0.1.7
-      '@noxcturnal/noxcturnal-darwin-x64': 0.1.7
-      '@noxcturnal/noxcturnal-linux-arm64-gnu': 0.1.7
-      '@noxcturnal/noxcturnal-linux-arm64-musl': 0.1.7
-      '@noxcturnal/noxcturnal-linux-x64-gnu': 0.1.7
-      '@noxcturnal/noxcturnal-linux-x64-musl': 0.1.7
-      '@noxcturnal/noxcturnal-win32-arm64-msvc': 0.1.7
-      '@noxcturnal/noxcturnal-win32-x64-msvc': 0.1.7
+      '@noxcturnal/noxcturnal-darwin-arm64': 0.1.11
+      '@noxcturnal/noxcturnal-darwin-x64': 0.1.11
+      '@noxcturnal/noxcturnal-linux-arm64-gnu': 0.1.11
+      '@noxcturnal/noxcturnal-linux-arm64-musl': 0.1.11
+      '@noxcturnal/noxcturnal-linux-x64-gnu': 0.1.11
+      '@noxcturnal/noxcturnal-linux-x64-musl': 0.1.11
+      '@noxcturnal/noxcturnal-win32-arm64-msvc': 0.1.11
+      '@noxcturnal/noxcturnal-win32-x64-msvc': 0.1.11
 
   npm-bundled@2.0.1:
     dependencies:
@@ -25608,8 +25598,6 @@ snapshots:
 
   uuid@3.4.0: {}
 
-  uuid@7.0.3: {}
-
   uuid@8.3.2: {}
 
   v8-compile-cache-lib@3.0.1: {}
@@ -26097,10 +26085,9 @@ snapshots:
 
   ws@8.19.0: {}
 
-  xcode@3.0.1:
+  xcode@4.0.0:
     dependencies:
       simple-plist: 1.3.1
-      uuid: 7.0.3
 
   xcparse@0.0.3: {}
 
